@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_zacuta_instance,access.zacuta.instance,model_zacuta_instance,,1,1,1,1
