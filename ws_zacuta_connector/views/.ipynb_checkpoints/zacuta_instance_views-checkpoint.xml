@@ -13,6 +13,9 @@
                         <button name="action_check_connection" string="Check Connection"
                                 type="object" class="btn-primary"
                                 />
+                        <button name="action_fetch_data" string="Download Data"
+                                type="object" class="btn-primary" states="active"
+                                />
                          
                     </header>
                     <sheet>
@@ -25,6 +28,7 @@
                             <group>
                                
                                 <field name="url"  />
+                                 <field name="response_json"  />
                             </group>
                             
                             <group>
