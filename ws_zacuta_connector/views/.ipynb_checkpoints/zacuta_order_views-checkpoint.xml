@@ -86,7 +86,7 @@
                                     </tree>    
                                 </field>    
                             </page>
-                            <page string='Payment Line'>
+                            <page string='Payment Line' invisible='1'>
                                 <field name='pay_line' attrs="{'readonly': [('state', '!=', 'draft')]}">
                                     <tree editable='bottom'>
                                        <field name="cn_number"  />

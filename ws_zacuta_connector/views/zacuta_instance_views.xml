@@ -28,12 +28,14 @@
                                 <field name="url"  />
                                 <field name="debit_account"  />
                                 <field name="delivery_charges"  />
+                                <field name="journal_id"  />
                             </group>
                             
                             <group>
                                 <field name="token"   />
                                 <field name="credit_account"  />
                                 <field name="weigh_charges"  />
+                                 <field name="je_journal_id"  />
 
                             </group>
                            
