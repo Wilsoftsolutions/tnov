@@ -10,6 +10,7 @@ from odoo.exceptions import RedirectWarning, UserError, ValidationError, AccessE
 class ZacutaDataLine(models.Model):
     _name = 'zacuta.order'
     _description = 'Zacuta Order'
+    _rec_name = 'zid'
 
     zid = fields.Char(string='ZID')
     user_id = fields.Char(string='User ID')
@@ -28,8 +29,7 @@ class ZacutaDataLine(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('post', 'Posted'),
-        ('cancel', 'Cancelled'),], string="Status",
-                             default="draft")
+        ('cancel', 'Cancelled'),], string="Status", default="draft")
     order_id = fields.Char(string='Order')
     tracking_number = fields.Char(string='Tracking No')
     cod_amount = fields.Char(string='COD Amount')
@@ -76,8 +76,8 @@ class RiderLine(models.Model):
     _description= 'Zacuta Rider Line'
     
     id  = fields.Char(string='ID')
-    name = fields.Float(string='Name')
-    username = fields.Float(string='Username')
+    name = fields.Char(string='Name')
+    username = fields.Char(string='Username')
     password = fields.Char(string='Password')
     token = fields.Char(string='Token')
     phone = fields.Char(string='Phone')
@@ -94,8 +94,8 @@ class ShipperLine(models.Model):
     _description= 'Zacuta Shipper Line'
     
     id  = fields.Char(string='ID')
-    name = fields.Float(string='Name')
-    email = fields.Float(string='Email')
+    name = fields.Char(string='Name')
+    email = fields.Char(string='Email')
     phone_number = fields.Char(string='Phone No')
     address = fields.Char(string='Address')
     origin_city = fields.Char(string='Origin City')

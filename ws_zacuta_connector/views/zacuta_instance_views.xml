@@ -16,7 +16,6 @@
                         <button name="action_fetch_data" string="Download Data"
                                 type="object" class="btn-primary" states="active"
                                 />
-                         
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -26,13 +25,16 @@
                         </div>
                         <group>
                             <group>
-                               
                                 <field name="url"  />
-                                 <field name="response_json"  />
+                                <field name="debit_account"  />
+                                <field name="delivery_charges"  />
                             </group>
                             
                             <group>
                                 <field name="token"   />
+                                <field name="credit_account"  />
+                                <field name="weigh_charges"  />
+
                             </group>
                            
                         </group>
