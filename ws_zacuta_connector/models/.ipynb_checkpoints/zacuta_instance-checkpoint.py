@@ -148,14 +148,14 @@ class ZacutaConnector(models.Model):
                     precredit=predebit
                     order = order.zid 
                     invoicea = inv.name
-                    qty = order.weight
+                    qty = data['weight']
                     self.action_post_commission_jv(predebit, precredit, order, invoicea, qty)
-                    if float(order.cod_amount) > 0: 
+                    if float(data['cod_amount']) > 0: 
                         vals = {
                             'journal_id': self.journal_id.id,
                             'payment_type': 'inbound',
                             'date': data['booking_date'],
-                            'amount': float(order.cod_amount),
+                            'amount': float(data['cod_amount']),
                         }  
                         payment = self.env['account.payment'].create(vals)
                         payment.action_post()
