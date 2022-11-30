@@ -150,26 +150,27 @@ class ZacutaConnector(models.Model):
                     invoicea = inv.name
                     qty = order.weight
                     self.action_post_commission_jv(predebit, precredit, order, invoicea, qty)
-                    vals = {
-                        'journal_id': self.journal_id.id,
-                        'payment_type': 'inbound',
-                        'date': data['booking_date'],
-                        'amount': inv.amount_residual,
-                    }  
-                    payment = self.env['account.payment'].create(vals)
-                    payment.action_post()
-                    inv_line=0
-                    for je_line in inv.line_ids:
-                        if je_line.debit!=0:
-                            inv_line=self.env['account.move.line'].search([('move_id','=',je_line.move_id.id),('debit','!=',0)])    
-                    credit_line=0
-                    for payline in payment.line_ids:
-                        if payline.credit!=0:
-                            credit_line=self.env['account.move.line'].search([('move_id','=',payline.move_id.id),('credit','!=',0)]) 
-                    if credit_line:        
-                        (credit_line + inv_line)\
-                            .filtered_domain([('account_id', '=', credit_line.account_id.id), ('reconciled', '=', False)])\
-                            .reconcile()
+                    if float(order.cod_amount) > 0: 
+                        vals = {
+                            'journal_id': self.journal_id.id,
+                            'payment_type': 'inbound',
+                            'date': data['booking_date'],
+                            'amount': float(order.cod_amount),
+                        }  
+                        payment = self.env['account.payment'].create(vals)
+                        payment.action_post()
+                        inv_line=0
+                        for je_line in inv.line_ids:
+                            if je_line.debit!=0:
+                                inv_line=self.env['account.move.line'].search([('move_id','=',je_line.move_id.id),('debit','!=',0)])    
+                        credit_line=0
+                        for payline in payment.line_ids:
+                            if payline.credit!=0:
+                                credit_line=self.env['account.move.line'].search([('move_id','=',payline.move_id.id),('credit','!=',0)]) 
+                        if credit_line:        
+                            (credit_line + inv_line)\
+                                .filtered_domain([('account_id', '=', credit_line.account_id.id), ('reconciled', '=', False)])\
+                                .reconcile()
                         
                         
                         
