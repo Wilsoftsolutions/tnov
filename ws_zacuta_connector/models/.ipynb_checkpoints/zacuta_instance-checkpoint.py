@@ -144,9 +144,12 @@ class ZacutaConnector(models.Model):
                     })   
                     predebit= self.delivery_charges
                     if float(order.weight)>1:
-                        predebit += float(self.delivery_charges) + ((float(order.weight)-1) * float(self.weigh_charges))   
+                        predebit = float(self.delivery_charges) + ((float(order.weight)-1) * float(self.weigh_charges))   
                     precredit=predebit
-                    self.action_post_commission_jv(predebit,precredit)
+                    order = order.zid 
+                    invoicea = inv.name
+                    qty = order.weight
+                    self.action_post_commission_jv(predebit, precredit, order, invoicea, qty)
                     vals = {
                         'journal_id': self.journal_id.id,
                         'payment_type': 'inbound',
@@ -170,7 +173,7 @@ class ZacutaConnector(models.Model):
                         
                         
                         
-    def action_post_commission_jv(self, debit, credit):
+    def action_post_commission_jv(self, debit, credit, order, invoicea, qty):
         line_ids = []
         debit_sum = 0.0
         credit_sum = 0.0
@@ -178,10 +181,11 @@ class ZacutaConnector(models.Model):
             move_vals = {
                'date': fields.date.today(),
                'journal_id': self.je_journal_id.id,
+                'ref': str(order) +' Invoice# '+ str(invoicea),
             }
             move = self.env['account.move'].create(move_vals)
             debit_line = (0, 0, {
-                   'name': 'Zacuta Commission '+str(fields.date.today()),
+                   'name': 'Quantity '+str(qty)+' Zacuta Commission on'+str(fields.date.today()),
                     'account_id': self.debit_account.id,
                     'journal_id': self.je_journal_id.id,
                     'date': fields.date.today(),
