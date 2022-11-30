@@ -104,8 +104,9 @@ class ZacutaConnector(models.Model):
 
                     shipper_list = []
                     shipper_list.append(data['shipper'])
-
+                    shippera = ''
                     if shipper_list and data['shipper']!=None:
+                        shippera=shipper['name']
                         for shipper in shipper_list:
                             shipper_vals = {
                                 'id': shipper['id'],
@@ -149,7 +150,7 @@ class ZacutaConnector(models.Model):
                     order = order.zid 
                     invoicea = inv.name
                     qty = data['weight']
-                    self.action_post_commission_jv(predebit, precredit, order, invoicea, qty)
+                    self.action_post_commission_jv(predebit, precredit, order, invoicea, qty, shippera)
                     if float(data['cod_amount']) > 0: 
                         vals = {
                             'journal_id': self.journal_id.id,
@@ -174,7 +175,7 @@ class ZacutaConnector(models.Model):
                         
                         
                         
-    def action_post_commission_jv(self, debit, credit, order, invoicea, qty):
+    def action_post_commission_jv(self, debit, credit, order, invoicea, qty, shippera):
         line_ids = []
         debit_sum = 0.0
         credit_sum = 0.0
@@ -196,7 +197,7 @@ class ZacutaConnector(models.Model):
             line_ids.append(debit_line)
             debit_sum += debit_line[2]['debit'] - debit_line[2]['credit']
             credit_line = (0, 0, {
-                   'name': 'Zacuta Commission '+str(fields.date.today()),
+                   'name': 'Shipper: '+str(shippera)+' Zacuta Commission '+str(fields.date.today()),
                     'account_id': self.credit_account.id,
                     'journal_id': self.je_journal_id.id,
                     'date': fields.date.today(),
