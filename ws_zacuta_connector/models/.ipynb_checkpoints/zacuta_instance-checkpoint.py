@@ -31,8 +31,9 @@ class ZacutaConnector(models.Model):
     
     def action_fetch_data(self):
         header = {'Accept': 'application/json', "Content-Type": "application/json"}
-        header.update({'ApiToken': str(self.token)})
-        url = str(self.url)
+        zacuta_instance = self.env['zacuta.instance'].search([], limit=1)
+        header.update({'ApiToken': str(zacuta_instance.token)})
+        url = str(zacuta_instance.url)
         req = requests.request('POST', url, headers=header)
         data_list = req.content
         final_list = json.loads(data_list)
